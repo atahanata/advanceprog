@@ -7,3 +7,5 @@ ClassWorks
 4-)[CW4](https://atahanata.github.io/advanceprog/cw4.html) 
 
 5-)[CW5](https://atahanata.github.io/advanceprog/cw5/cw5/EloquentJS.html)
+
+6-)[HW2](https://atahanata.github.io/advanceprog/HW2/databeans.html)
