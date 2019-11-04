@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="databeans.js"></script>
+    <title>Student Database - HW#2 </title>
+
+    <style>
+        .link {
+            color: blue;
+            cursor: pointer;
+            font-style: italic;
+        }
+        .course {
+            visibility: hidden;
+            font: 10px arial, sans-serif;
+            color: white;
+            background: blue;
+            cursor: text;
+            padding: 6px;
+            position: absolute;
+            height: 90px;
+            overflow-y: auto;
+        }
+        .link:hover .course {
+            visibility: visible;
+        }
+    </style>
+
+    <script>
+        let d = new Database();
+        function report(msg, id, list) {
+            out.innerHTML += "<br>"; msg += " ";
+            out.appendChild(document.createTextNode(msg));
+            let n1;
+            if (id) {
+                n1 = document.createElement("span");
+                n1.appendChild(document.createTextNode(id));
+                n1.classList.add("link");
+                out.appendChild(n1); msg += id;
+                //n1.addEventListener("click", doClick);
+            }
+            if (list) {
+                let n2 = document.createElement("span");
+                n2.appendChild(document.createTextNode(""));
+                n2.innerHTML += list.join("<br>");
+                n2.classList.add("course");
+                if (n1) n1.appendChild(n2);
+            }
+            console.log(msg);
+        }
+        function doClick(evt) {
+            //console.log(evt);
+            let t = evt.target;
+            let s = t.innerText;
+            if (/^\d+$/.test(s)) {showStd(s); //s contains digits
+                sid.value=s;
+            }
+            else if (t = t.firstElementChild) {
+                t.style.visibility = "";
+                let hide = function () {
+                    t.style.visibility = "hidden";
+                };
+                setTimeout(hide, 5000);
+            }
+        }
+        function findID(id) {
+            if (!d.students.has(id)) return null;
+            else return d.students.get(id);
+        }
+        function showStd(id) {
+            let t = id+" ";
+            let std = findID(id);
+            if (!std) {
+                report(t+"bulunamadı"); return;
+            }
+            t += std.name+" "+std.gpa;
+            report(t, std.courses.length+" kurslar", std.courses);
+        }
+        function studentsIn(code) {
+            if(!code) {report("kurs kutusu boş");return;}
+            code = code.toUpperCase().trim();
+            let a = [];
+            if(d.courses.has(code)){
+                d.students.forEach(function (s){
+                    if(s.courses.includes(code))
+                        a.push(s);
+                });
+            }else{
+                report(code+ " : kurs bulunamadı");
+                return;
+            }
+            if (a.length > 0)
+                report(code+": ", a.length+" students", a);
+            else report("No students in "+code);
+        }
+        function randomStd() {
+            let items = Array.from(d.students);
+            let randElement = items[Math.floor(Math.random() * items.length)][1]; // [0]:id , [1]:Student
+            report("RASTGELE ÖĞRENCİ: "+randElement.name, randElement.id);
+        }
+        function StudentsAbove(gpa) {
+            let a = [];
+            d.students.forEach(function (s){
+                if (s.gpa >= gpa){
+                    a.push(s);
+                }
+            });
+            report("Above gpa "+gpa+" : ", a.length+" students", a);
+        }
+        function getSchedule (){
+            if (!sid.value){
+                report("Öğrenci id giriniz");
+                return;
+            }
+            if(!d.students.has(sid.value))
+                report(sid.value+ " : öğrenci bulunamadı");
+            else{
+                let std=d.students.get(sid.value);
+                let t ="";
+                report("Sınav Takvimi  "+std.id);
+                report("kurs\t\t | "+"Tarih\t\t | "+"zaman\t\t |"+"sınıflar\t\t");
+                for(let i=0;i<std.courses.length; i++){
+                    let course =d.courses.get(std.courses[i]);
+                    t=course.code+"\t\t | "+course.date+"\t\t | "+course.time+"\t\t | ";
+                    report(t,course.rooms.length,course.rooms);
+                }
+            }
+        }
+        function coursesOfRoom(room){
+            let a = [];
+            d.courses.forEach(function(c){
+                if(c.rooms.includes(room.toUpperCase()))
+                    a.push(c.code);
+            });
+            if(a.length==0){
+                report("oda "+room.toUpperCase()+" boş");
+                return;
+            }
+            report(room.toUpperCase()+"\n Odasındaki Kurslar:",a.length,a);
+        }
+        function getCourseDetailes(){
+            if(!cid.value){
+                report("kurs kutusu boş");
+                return;
+            }
+            let cname=cid.value.toUpperCase().trim();
+            if(!d.courses.has(cname)){
+                report(cname+"kurs bulunamadı");
+                return;
+            }
+            let c = d.courses.get(cname);
+            report(c.code+" : "+c.date+" | "+c.time+" | ",c.rooms.length,c.rooms);
+        }
+    </script>
+</head>
+<body>
+
+<h2 id=title style = "font-family:courier,arial,helvetica;"></h2>
+<button style="color:red"  onClick='randomStd()'>Rastgele Öğrenci Seç</button>
+<button style="color: red" onClick='getSchedule()'>Öğrenci Sınav Takvimi</button>
+<button style="color: red" onClick='getCourseDetailes()'>Kurs ayrıntıları</button>
+<button style="color: royalblue" onClick='out.innerText="Result:";
+    sid.value="";
+    gpaVal.value="";
+    cid.value="";
+    room.value=""'>Clear</button>
+
+<p style = "font-family:courier,arial,helvetica;">Öğrenci id:
+    <input id=sid type=number onChange="showStd(value)">
+</p>
+<p style = "font-family:courier,arial,helvetica;">Kurs kodu:
+    <input id= cid type=text onChange="studentsIn(value)" value=" ">
+</p>
+<p style = "font-family:courier,arial,helvetica;">Ortalama:
+    <input id=gpaVal type=number onChange="StudentsAbove(value)" >
+</p>
+<p style = "font-family:courier,arial,helvetica;">Oda:
+    <input id=room type=text onChange="coursesOfRoom(value)" >
+</p>
+<p id=out onClick=></p>
+
+<script>
+    title.innerText = document.title;
+    //sample.innerText = d.readStudents()+"\n\n"+d.readCourses+"\n\n"+d.addCourses;
+</script>
+
+</body>
+</html>
