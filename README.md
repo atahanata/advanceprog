@@ -8,6 +8,8 @@ ClassWorks
 
 5-)[CW5](https://atahanata.github.io/advanceprog/cw5/cw5/EloquentJS.html)
 
+6-)[CW6](https://atahanata.github.io/advanceprog/cw6.html)
+
 HomeWorks
 
 1-)[HW2](https://atahanata.github.io/advanceprog/HW2/databeans.html)
