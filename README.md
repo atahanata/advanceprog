@@ -10,6 +10,9 @@ ClassWorks
 
 6-)[CW6](https://atahanata.github.io/advanceprog/cw6.html)
 
+7-)[CW7](https://atahanata.github.io/advanceprog/cw7/cw7.html)
+
+
 HomeWorks
 
 1-)[HW2](https://atahanata.github.io/advanceprog/HW2/databeans.html)
