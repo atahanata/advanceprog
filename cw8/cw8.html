@@ -1,0 +1,116 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+
+    <title>Map to HTML Table</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script type="text/javascript" src="main.js"></script>
+
+  <script>
+     if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('sw.js')
+          .then((reg) => { console.log('SW Registered', reg) })
+          .catch(console.log)
+      }
+  </script>
+  <style>
+
+      .tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #455;
+  color: red;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+    .link {
+        color: blue;
+        cursor: pointer;
+        font-style: italic;
+    }
+    .course {
+        visibility: hidden;
+        font: 10px arial, sans-serif;
+        color: white;
+        background: blue;
+        cursor: text;
+        padding: 6px;
+        position: absolute;
+        height: 90px;
+        overflow-y: auto;
+    }
+    .link:hover .course {
+        visibility: visible;
+    }
+table { border-collapse: collapse; }
+    th { color: blue; padding: 5px 5px; }
+    td {
+        border: 1px solid blue;
+        padding: 5px 5px;
+        text-align: center;
+    }
+    td:hover .tip { visibility: visible; }
+    .tip {
+        visibility: hidden;
+        font-size: small;
+        background-color: blue;
+        color: white;
+        text-align: center;
+        padding: 5px 5px;
+        position: absolute;
+    }
+  </style>
+ <script>
+ </script>
+ </head>
+
+<body>
+<div class="w3-container w3-yellow">
+
+<h2 id=title></h2>
+<p><input class="w3-input" type=text id=linktxt  placeholder="" value="https://atahanata.github.io/advanceprog/deneme.txt" onchange="" style="width:280px">
+<input type=button value="Renew " class="button" onClick="db=new Database();"></p>
+<p id="out"></p>
+</div>
+<table id="tablo"><tr><th></th><th>id</th><th>name</th><th>gpa</th><th>count</th><th>courses</th></tr></table>
+<hr />
+<p id="sample"></p>
+<script>
+    title.innerText = document.title;
+    db = new Database();
+    sample.innerText=db.printTable;
+</script>
+</body>
+</html>
