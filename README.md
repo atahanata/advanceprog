@@ -12,6 +12,7 @@ ClassWorks
 
 7-)[CW7](https://atahanata.github.io/advanceprog/cw7/cw7.html)
 
+8-)[CW8](https://atahanata.github.io/advanceprog/cw8/cw8.html)
 
 HomeWorks
 
