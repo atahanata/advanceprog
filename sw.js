@@ -1,5 +1,5 @@
-const CACHE ='JS'
-const FILES = ['/JS/', '/JS/sss/', '/JS/index.html', ...]
+const CACHE ='advanceprog'
+const FILES = ['/advanceprog/', '/advanceprog/sss/', '/advanceprog/index.html', ...]
 function installCB(e) {
   e.waitUntil(
     caches.open(CACHE)
